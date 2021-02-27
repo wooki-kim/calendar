@@ -1,6 +1,10 @@
 import styled from "@emotion/styled";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
+const CalendarContainer = styled.section`
+  max-width: 720px;
+  margin: 0 auto;
+`;
 const CalendarHeaderGrid = styled.dt`
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
@@ -106,12 +110,7 @@ function App() {
     weekdays: ["일", "월", "화", "수", "목", "금", "토"],
   };
   const [rawData, setRawData] = useState(defaultData);
-
-  // [...Array(now.daysInMonth()).keys()].map((i) => {
-  //   defaultData.days.push({ day: i + 1, event: [] });
-  // });
-  // defaultData.days[11].event.push("예약");
-
+  
   useEffect(() => {
     let startWeek = now.subtract(1, "M").date(1);
     let lastWeek = now.date(now.daysInMonth());
@@ -125,7 +124,6 @@ function App() {
     let startWeekCount = startWeek.daysInMonth() - now.date(1).$W + 1;
 
     [...Array(now.date(1).$W)].map((value, index) => {
-      console.log("init", index);
       defaultData.days.push({
         day: startWeekCount++,
         event: [],
@@ -136,27 +134,14 @@ function App() {
     [...Array(now.daysInMonth()).keys()].map((i) => {
       defaultData.days.push({ day: i + 1, event: [] });
     });
-    console.log(lastWeek.$W);
     [...Array(6 - lastWeek.$W)].map((value, index) => {
-      console.log("init", index);
       defaultData.days.push({ day: index + 1, event: [], stateWeek: 1 });
     });
-
-    // console.log("lastWeekCount",);
-    //  [...Array(now.date(1).$W)].map((value,index) => {
-    //   console.log("init",index);
-    //   defaultData.days.push({ day: lastWeekCount++, event: [],stateWeek:-1, });
-    // });
 
     defaultData.days[11].event.push("예약");
 
     setRawData(defaultData);
   }, [now]);
-
-  // useEffect(() => {
-  //   console.log("data");
-
-  // }, [rawData])
 
   const changeMonth = (param) => {
     if (param === "prev") {
@@ -168,7 +153,7 @@ function App() {
   return (
     <div>
       <header></header>
-      <section>
+      <CalendarContainer>
         <dl>
           <CalendarHeaderGrid>
             <button onClick={() => changeMonth("prev")}>지난달</button>
@@ -202,7 +187,7 @@ function App() {
             </CalendarGrid>
           </dd>
         </dl>
-      </section>
+      </CalendarContainer>
     </div>
   );
 }
