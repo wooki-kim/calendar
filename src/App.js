@@ -152,7 +152,6 @@ function App() {
   };
   return (
     <div>
-      <header></header>
       <CalendarContainer>
         <dl>
           <CalendarHeaderGrid>
